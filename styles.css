@@ -1,15 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
+
 body {
+  font-family: "Lato", sans-serif;
   height: 100vh;
   padding: 0;
   margin: 0;
-  gap: 192px;
+  gap: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .settings {
-  gap: 24px;
+  gap: 36px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +20,7 @@ body {
 
 .color-picker-wrapper {
   --side-length: 80px;
-  background-color: hsl(152, 100%, 65%);
+  background-color: hsl(152, 100%, 60%);
   border-radius: calc(var(--side-length) / 2);
 }
 
@@ -30,6 +33,7 @@ body {
 }
 
 .grid-line-toggle {
+  font-family: "Lato", sans-serif;
   background-color: hsl(152, 100%, 85%);
   color: hsl(0, 0%, 10%);
   padding: 8px 12px;
@@ -39,12 +43,40 @@ body {
 }
 
 .grid-line-toggle:hover {
-  background-color: hsl(152, 100%, 70%);
+  background-color: hsl(152, 100%, 80%);
 }
 
 .grid-line-toggle:active {
-  background-color: hsl(152, 100%, 50%);
+  background-color: hsl(152, 100%, 75%);
   transition: background-color 50ms ease-out;
+}
+
+.canvas-sizer-container {
+  text-align: center;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.canvas-sizer-container > label {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.canvas-sizer {
+  background: hsl(0, 0%, 35%);
+  height: 2px;
+  border-radius: 2px;
+  appearance: none;
+  outline: none;
+}
+
+.canvas-sizer::-webkit-slider-thumb {
+  background: hsl(0, 0%, 15%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  appearance: none;
 }
 
 .canvas {
@@ -57,17 +89,15 @@ body {
 }
 
 .pixel {
-  width: 30px;
-  height: 30px;
   box-sizing: border-box;
   border: 1px solid hsla(0, 0%, 0%, 10%);
+  border-top: 0;
+  border-left: 0;
 }
 
 .canvas.hide-grid-lines .pixel {
   border-color: transparent;
 }
 
-.row:nth-child(1) > .pixel { border-top-width: 0; }
-.row:nth-last-child(1) > .pixel { border-bottom-width: 0; }
-.row > .pixel:nth-child(1) { border-left-width: 0; }
-.row > .pixel:nth-last-child(1) { border-right-width: 0; }
+.row:nth-child(1) > .pixel { border-top-width: 1px; }
+.row > .pixel:nth-child(1) { border-left-width: 1px; }
