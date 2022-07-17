@@ -9,9 +9,10 @@ function onColorInput(evt) {
   penColor = evt.target.value;
 }
 
-const canvas = document.querySelector(".canvas");
 const body = document.querySelector("body");
+const canvas = document.querySelector(".canvas");
 const colorPicker = document.querySelector(".color-picker");
+const gridLineToggle = document.querySelector(".grid-line-toggle");
 
 for (let i = 0; i < 16; i++) {
   const row = document.createElement("div");
@@ -33,5 +34,9 @@ body.addEventListener("mousedown", () => mouseDown = true, {capture: true});
 body.addEventListener("mouseup", () => mouseDown = false);
 body.addEventListener("mouseleave", () => mouseDown = false);
 
-let penColor = "black";
+let penColor = "hsl(152, 100%, 35%)";
 colorPicker.addEventListener("input", onColorInput);
+
+gridLineToggle.addEventListener("click",
+  () => canvas.classList.toggle("hide-grid-lines")
+);

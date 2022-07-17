@@ -8,9 +8,16 @@ body {
   align-items: center;
 }
 
+.settings {
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .color-picker-wrapper {
   --side-length: 80px;
-  background-color: black;
+  background-color: hsl(152, 100%, 35%);
   border-radius: calc(var(--side-length) / 2);
 }
 
@@ -20,6 +27,24 @@ body {
   height: var(--side-length);
   border: 0;
   opacity: 0;
+}
+
+.grid-line-toggle {
+  background-color: hsl(152, 100%, 85%);
+  color: hsl(0, 0%, 10%);
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 5px;
+  transition: background-color 150ms ease-out;
+}
+
+.grid-line-toggle:hover {
+  background-color: hsl(152, 100%, 70%);
+}
+
+.grid-line-toggle:active {
+  background-color: hsl(152, 100%, 50%);
+  transition: background-color 50ms ease-out;
 }
 
 .canvas {
@@ -35,7 +60,11 @@ body {
   width: 30px;
   height: 30px;
   box-sizing: border-box;
-  border: calc(var(--grid-line-width) / 2) solid black;
+  border: calc(var(--grid-line-width) / 2) solid hsla(0, 0%, 0%, 10%);
+}
+
+.canvas.hide-grid-lines .pixel {
+  border-color: transparent;
 }
 
 .row:nth-child(1) > .pixel { border-top-width: var(--grid-line-width); }
