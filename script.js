@@ -1,10 +1,17 @@
 function onPixelHover(evt) {
   if (mouseDown) {
-    evt.target.style.backgroundColor = "black";
+    evt.target.style.backgroundColor = penColor;
   }
 }
 
+function onColorInput(evt) {
+  evt.target.parentNode.style.backgroundColor = evt.target.value;
+  penColor = evt.target.value;
+}
+
 const canvas = document.querySelector(".canvas");
+const body = document.querySelector("body");
+const colorPicker = document.querySelector(".color-picker");
 
 for (let i = 0; i < 16; i++) {
   const row = document.createElement("div");
@@ -22,7 +29,9 @@ for (let i = 0; i < 16; i++) {
 }
 
 let mouseDown = false;
-const body = document.querySelector("body");
 body.addEventListener("mousedown", () => mouseDown = true, {capture: true});
 body.addEventListener("mouseup", () => mouseDown = false);
 body.addEventListener("mouseleave", () => mouseDown = false);
+
+let penColor = "black";
+colorPicker.addEventListener("input", onColorInput);

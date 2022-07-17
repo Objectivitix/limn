@@ -1,17 +1,29 @@
-:root {
-  --grid-line-width: 2px;
-}
-
 body {
   height: 100vh;
   padding: 0;
   margin: 0;
+  gap: 192px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.color-picker-wrapper {
+  --side-length: 80px;
+  background-color: black;
+  border-radius: calc(var(--side-length) / 2);
+}
+
+.color-picker {
+  display: block;
+  width: var(--side-length);
+  height: var(--side-length);
+  border: 0;
+  opacity: 0;
+}
+
 .canvas {
+  --grid-line-width: 2px;
   user-select: none;
 }
 
