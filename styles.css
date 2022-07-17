@@ -1,0 +1,32 @@
+:root {
+  --grid-line-width: 2px;
+}
+
+body {
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.canvas {
+  user-select: none;
+}
+
+.row {
+  display: flex;
+}
+
+.pixel {
+  width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  border: calc(var(--grid-line-width) / 2) solid black;
+}
+
+.row:nth-child(1) > .pixel { border-top-width: var(--grid-line-width); }
+.row:nth-last-child(1) > .pixel { border-bottom-width: var(--grid-line-width); }
+.row > .pixel:nth-child(1) { border-left-width: var(--grid-line-width); }
+.row > .pixel:nth-last-child(1) { border-right-width: var(--grid-line-width); }
