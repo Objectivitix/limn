@@ -34,7 +34,7 @@ body.addEventListener("mousedown", () => mouseDown = true, {capture: true});
 body.addEventListener("mouseup", () => mouseDown = false);
 body.addEventListener("mouseleave", () => mouseDown = false);
 
-let penColor = "hsl(152, 100%, 35%)";
+let penColor = "hsl(152, 100%, 65%)";
 colorPicker.addEventListener("input", onColorInput);
 
 gridLineToggle.addEventListener("click",

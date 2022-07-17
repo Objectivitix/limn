@@ -17,7 +17,7 @@ body {
 
 .color-picker-wrapper {
   --side-length: 80px;
-  background-color: hsl(152, 100%, 35%);
+  background-color: hsl(152, 100%, 65%);
   border-radius: calc(var(--side-length) / 2);
 }
 
