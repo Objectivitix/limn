@@ -1,23 +1,15 @@
 const CANVAS_SIZE = 640;
 
-function createCanvasGrid(pixelSize) {
-  for (let i = 0; i < pixelSize; i++) {
-    const row = document.createElement("div");
-    row.classList.add("row");
+const body = document.querySelector("body");
+const canvas = document.querySelector(".canvas");
+const colorPicker = document.querySelector(".color-picker");
+const gridLineToggle = document.querySelector(".grid-line-toggle");
+const canvasSizerLabel = document.querySelector(".canvas-sizer-container > label");
+const canvasSizer = document.querySelector(".canvas-sizer");
+const canvasClearer = document.querySelector(".canvas-clearer");
 
-    for (let j = 0; j < pixelSize; j++) {
-      const pixel = document.createElement("div");
-      pixel.style.width = pixel.style.height = `${CANVAS_SIZE / pixelSize}px`;
-      pixel.classList.add("pixel");
-
-      pixel.addEventListener("mouseover", onPixelHover);
-      pixel.addEventListener("mousedown", onPixelHover);
-      row.appendChild(pixel);
-    }
-
-    canvas.appendChild(row);
-  }
-}
+let mouseDown = false;
+let penColor = "hsl(152, 100%, 60%)";
 
 function onPixelHover(evt) {
   if (mouseDown) {
@@ -30,6 +22,10 @@ function onColorInput(evt) {
   penColor = evt.target.value;
 }
 
+function onGridLineToggle() {
+  canvas.classList.toggle("hide-grid-lines");
+}
+
 function onCanvasResize(evt) {
   const newSize = evt.target.value;
 
@@ -39,32 +35,40 @@ function onCanvasResize(evt) {
 }
 
 function onCanvasClear() {
-  document.querySelectorAll(".pixel")
-    .forEach(pixel => pixel.style.backgroundColor = "");
+  const pixels = document.querySelectorAll(".pixel")
+  pixels.forEach(pixel => pixel.style.backgroundColor = "");
 }
 
-const body = document.querySelector("body");
-const canvas = document.querySelector(".canvas");
-const colorPicker = document.querySelector(".color-picker");
-const gridLineToggle = document.querySelector(".grid-line-toggle");
-const canvasSizerLabel = document.querySelector(".canvas-sizer-container > label");
-const canvasSizer = document.querySelector(".canvas-sizer");
-const canvasClearer = document.querySelector(".canvas-clearer");
+function createCanvasGrid(sideLength) {
+  const pixelSize = CANVAS_SIZE / sideLength;
 
-createCanvasGrid(16);
+  for (let i = 0; i < sideLength; i++) {
+    const row = document.createElement("div");
+    row.classList.add("row");
 
-let mouseDown = false;
+    for (let j = 0; j < sideLength; j++) {
+      const pixel = document.createElement("div");
+
+      pixel.style.width = `${pixelSize}px`;
+      pixel.style.height = `${pixelSize}px`;
+      pixel.classList.add("pixel");
+      pixel.addEventListener("mouseover", onPixelHover);
+      pixel.addEventListener("mousedown", onPixelHover);
+
+      row.appendChild(pixel);
+    }
+
+    canvas.appendChild(row);
+  }
+}
+
 body.addEventListener("mousedown", () => mouseDown = true, {capture: true});
 body.addEventListener("mouseup", () => mouseDown = false);
 body.addEventListener("mouseleave", () => mouseDown = false);
 
-let penColor = "hsl(152, 100%, 60%)";
 colorPicker.addEventListener("input", onColorInput);
-
-gridLineToggle.addEventListener("click",
-  () => canvas.classList.toggle("hide-grid-lines")
-);
-
+gridLineToggle.addEventListener("click", onGridLineToggle);
 canvasSizer.addEventListener("input", onCanvasResize);
-
 canvasClearer.addEventListener("click", onCanvasClear);
+
+createCanvasGrid(16);
