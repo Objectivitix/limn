@@ -38,12 +38,18 @@ function onCanvasResize(evt) {
   createCanvasGrid(newSize);
 }
 
+function onCanvasClear() {
+  document.querySelectorAll(".pixel")
+    .forEach(pixel => pixel.style.backgroundColor = "");
+}
+
 const body = document.querySelector("body");
 const canvas = document.querySelector(".canvas");
 const colorPicker = document.querySelector(".color-picker");
 const gridLineToggle = document.querySelector(".grid-line-toggle");
 const canvasSizerLabel = document.querySelector(".canvas-sizer-container > label");
 const canvasSizer = document.querySelector(".canvas-sizer");
+const canvasClearer = document.querySelector(".canvas-clearer");
 
 createCanvasGrid(16);
 
@@ -60,3 +66,5 @@ gridLineToggle.addEventListener("click",
 );
 
 canvasSizer.addEventListener("input", onCanvasResize);
+
+canvasClearer.addEventListener("click", onCanvasClear);
