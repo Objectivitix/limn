@@ -95,9 +95,14 @@ body {
   border-left: 0;
 }
 
+.row:nth-last-child(1) > .pixel {
+  border-bottom: 0;
+}
+
+.row > .pixel:nth-last-child(1) {
+  border-right: 0;
+}
+
 .canvas.hide-grid-lines .pixel {
   border-color: transparent;
 }
-
-.row:nth-child(1) > .pixel { border-top-width: 1px; }
-.row > .pixel:nth-child(1) { border-left-width: 1px; }
