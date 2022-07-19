@@ -2,75 +2,68 @@ const CANVAS_SIZE = 640;
 
 const body = document.querySelector("body");
 const canvas = document.querySelector(".canvas");
+const pixels = document.getElementsByClassName("pixel");
+
 const colorPicker = document.querySelector(".color-picker");
-const gridLineToggle = document.querySelector(".grid-line-toggle");
-const gridLineColorToggle = document.querySelector(".gl-color-toggle");
-const canvasSizerLabel = document.querySelector(".canvas-sizer-container > label");
-const canvasSizer = document.querySelector(".canvas-sizer");
-const gridLineOpacityLabel = document.querySelector(".gl-opacity-container > label");
-const gridLineOpacitySlider = document.querySelector(".gl-opacity");
+const gridToggle = document.querySelector(".grid-toggle");
+const gridColorToggle = document.querySelector(".grid-color-toggle");
+const gridOpacitySlider = document.querySelector(".grid-opacity-slider");
+const canvasSizeSlider = document.querySelector(".canvas-size-slider");
 const canvasClearer = document.querySelector(".canvas-clearer");
 
-let mouseDownButton = null;
-let penColor = "hsl(152, 100%, 60%)";
+let buttonPressed = null;
+let penColor = "hsl(152 100% 60%)";
 let gridLineLightness = 0;
 let gridLineOpacity = 10;
 
-function setMouseDownButton(evt) {
-  mouseDownButton = evt.button;
-}
+canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
 
-function onPixelHover(evt) {
-  if (mouseDownButton === 0) {
-    evt.target.style.backgroundColor = penColor;
-  } else if (mouseDownButton === 2) {
-    evt.target.style.backgroundColor = "";
-    evt.target.classList.add("eraser-mode");
-  }
-}
+body.addEventListener("mousedown", (evt) => buttonPressed = evt.button, {capture: true});
+body.addEventListener("mouseup", () => buttonPressed = null);
+body.addEventListener("mouseleave", () => buttonPressed = null);
 
-function onPixelRelease(evt) {
-  evt.target.classList.remove("eraser-mode");
-}
+colorPicker.addEventListener("input", onColorPick);
+gridToggle.addEventListener("click", onGridToggle);
+gridColorToggle.addEventListener("click", onGridColorToggle);
+gridOpacitySlider.addEventListener("input", onGridOpacitySlide);
+canvasSizeSlider.addEventListener("input", onCanvasSizeSlide);
+canvasClearer.addEventListener("click", onCanvasClear);
 
-function onColorInput(evt) {
+createCanvasGrid(16);
+
+function onColorPick(evt) {
   evt.target.parentNode.style.backgroundColor = evt.target.value;
   penColor = evt.target.value;
 }
 
-function onGridLineToggle() {
+function onGridToggle() {
   canvas.classList.toggle("hide-grid-lines");
 }
 
-function onGridLineColorToggle(evt) {
-  gridLineLightness = +!gridLineLightness;
-  const pixels = document.querySelectorAll(".pixel");
-  pixels.forEach(pixel => pixel.style.borderColor =
-    `hsl(0 0% ${gridLineLightness * 100}% / ${gridLineOpacity}%)`
-  );
+function onGridColorToggle() {
+  gridLineLightness = Number(!gridLineLightness);
+  updateGrid();
 }
 
-function onCanvasResize(evt) {
+function onGridOpacitySlide(evt) {
+  gridLineOpacity = evt.target.value;
+
+  evt.target.previousElementSibling.textContent =
+    `Grid line opacity: ${gridLineOpacity}%`;
+  updateGrid();
+}
+
+function onCanvasSizeSlide(evt) {
   const newSize = evt.target.value;
 
-  canvasSizerLabel.textContent = `Canvas size: ${newSize}x${newSize}`;
+  evt.target.previousElementSibling.textContent =
+    `Canvas size: ${newSize}x${newSize}`;
   canvas.innerHTML = "";
   createCanvasGrid(newSize);
 }
 
-function onGLOpacityInput(evt) {
-  gridLineOpacity = evt.target.value;
-
-  gridLineOpacityLabel.textContent = `Grid line opacity: ${gridLineOpacity}%`;
-  const pixels = document.querySelectorAll(".pixel");
-  pixels.forEach(pixel => pixel.style.borderColor =
-    `hsl(0 0% ${gridLineLightness * 100}% / ${gridLineOpacity}%)`
-  );
-}
-
 function onCanvasClear() {
-  const pixels = document.querySelectorAll(".pixel");
-  pixels.forEach(pixel => pixel.style.backgroundColor = "");
+  forEach(pixels, pixel => pixel.style.backgroundColor = "");
 }
 
 function createCanvasGrid(sideLength) {
@@ -99,17 +92,25 @@ function createCanvasGrid(sideLength) {
   }
 }
 
-canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
+function onPixelHover(evt) {
+  if (buttonPressed === 0) {
+    evt.target.style.backgroundColor = penColor;
+    evt.target.classList.add("write-mode");
+  } else if (buttonPressed === 2) {
+    evt.target.style.backgroundColor = "";
+    evt.target.classList.add("write-mode");
+  }
+}
 
-body.addEventListener("mousedown", setMouseDownButton, {capture: true});
-body.addEventListener("mouseup", () => mouseDownButton = null);
-body.addEventListener("mouseleave", () => mouseDownButton = null);
+function onPixelRelease(evt) {
+  evt.target.classList.remove("write-mode");
+}
 
-colorPicker.addEventListener("input", onColorInput);
-gridLineColorToggle.addEventListener("click", onGridLineColorToggle);
-gridLineToggle.addEventListener("click", onGridLineToggle);
-gridLineOpacitySlider.addEventListener("input", onGLOpacityInput);
-canvasSizer.addEventListener("input", onCanvasResize);
-canvasClearer.addEventListener("click", onCanvasClear);
+function updateGrid() {
+  const newColor = `hsl(0 0% ${gridLineLightness * 100}% / ${gridLineOpacity}%)`
+  forEach(pixels, pixel => pixel.style.borderColor = newColor);
+}
 
-createCanvasGrid(16);
+function forEach(arrayLike, callbackFn) {
+  Array.from(arrayLike).forEach(callbackFn);
+}
