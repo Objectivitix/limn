@@ -4,12 +4,17 @@ const body = document.querySelector("body");
 const canvas = document.querySelector(".canvas");
 const colorPicker = document.querySelector(".color-picker");
 const gridLineToggle = document.querySelector(".grid-line-toggle");
+const gridLineColorToggle = document.querySelector(".gl-color-toggle");
 const canvasSizerLabel = document.querySelector(".canvas-sizer-container > label");
 const canvasSizer = document.querySelector(".canvas-sizer");
+const gridLineOpacityLabel = document.querySelector(".gl-opacity-container > label");
+const gridLineOpacitySlider = document.querySelector(".gl-opacity");
 const canvasClearer = document.querySelector(".canvas-clearer");
 
 let mouseDownButton = null;
 let penColor = "hsl(152, 100%, 60%)";
+let gridLineLightness = 0;
+let gridLineOpacity = 10;
 
 function setMouseDownButton(evt) {
   mouseDownButton = evt.button;
@@ -20,20 +25,12 @@ function onPixelHover(evt) {
     evt.target.style.backgroundColor = penColor;
   } else if (mouseDownButton === 2) {
     evt.target.style.backgroundColor = "";
-  }
-
-  evt.target.unhoverColor = evt.target.style.backgroundColor;
-  if (mouseDownButton !== 2) {
-    evt.target.style.backgroundColor = penColor;
+    evt.target.classList.add("eraser-mode");
   }
 }
 
 function onPixelRelease(evt) {
-  evt.target.style.backgroundColor = penColor;
-}
-
-function onPixelUnhover(evt) {
-  evt.target.style.backgroundColor = evt.target.unhoverColor;
+  evt.target.classList.remove("eraser-mode");
 }
 
 function onColorInput(evt) {
@@ -45,6 +42,14 @@ function onGridLineToggle() {
   canvas.classList.toggle("hide-grid-lines");
 }
 
+function onGridLineColorToggle(evt) {
+  gridLineLightness = +!gridLineLightness;
+  const pixels = document.querySelectorAll(".pixel");
+  pixels.forEach(pixel => pixel.style.borderColor =
+    `hsl(0 0% ${gridLineLightness * 100}% / ${gridLineOpacity}%)`
+  );
+}
+
 function onCanvasResize(evt) {
   const newSize = evt.target.value;
 
@@ -53,8 +58,18 @@ function onCanvasResize(evt) {
   createCanvasGrid(newSize);
 }
 
+function onGLOpacityInput(evt) {
+  gridLineOpacity = evt.target.value;
+
+  gridLineOpacityLabel.textContent = `Grid line opacity: ${gridLineOpacity}%`;
+  const pixels = document.querySelectorAll(".pixel");
+  pixels.forEach(pixel => pixel.style.borderColor =
+    `hsl(0 0% ${gridLineLightness * 100}% / ${gridLineOpacity}%)`
+  );
+}
+
 function onCanvasClear() {
-  const pixels = document.querySelectorAll(".pixel")
+  const pixels = document.querySelectorAll(".pixel");
   pixels.forEach(pixel => pixel.style.backgroundColor = "");
 }
 
@@ -75,7 +90,7 @@ function createCanvasGrid(sideLength) {
       pixel.addEventListener("mouseover", onPixelHover);
       pixel.addEventListener("mousedown", onPixelHover);
       pixel.addEventListener("mouseup", onPixelRelease);
-      pixel.addEventListener("mouseleave", onPixelUnhover);
+      pixel.addEventListener("mouseleave", onPixelRelease);
 
       row.appendChild(pixel);
     }
@@ -91,7 +106,9 @@ body.addEventListener("mouseup", () => mouseDownButton = null);
 body.addEventListener("mouseleave", () => mouseDownButton = null);
 
 colorPicker.addEventListener("input", onColorInput);
+gridLineColorToggle.addEventListener("click", onGridLineColorToggle);
 gridLineToggle.addEventListener("click", onGridLineToggle);
+gridLineOpacitySlider.addEventListener("input", onGLOpacityInput);
 canvasSizer.addEventListener("input", onCanvasResize);
 canvasClearer.addEventListener("click", onCanvasClear);
 

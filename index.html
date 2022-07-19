@@ -18,10 +18,15 @@
       <div class="color-picker-wrapper">
         <input type="color" value="#33ffa0" class="color-picker">
       </div>
+      <button class="gl-color-toggle">Toggle grid line color</button>
       <button class="grid-line-toggle">Toggle grid lines</button>
-      <div class="canvas-sizer-container">
+      <div class="gl-opacity-container slider-container">
+        <label>Grid line opacity: 10%</label>
+        <input type="range" min="0" max="100" value="10" class="gl-opacity slider">
+      </div>
+      <div class="canvas-sizer-container slider-container">
         <label>Canvas size: 16x16</label>
-        <input type="range" min="1" max="64" value="16" class="canvas-sizer">
+        <input type="range" min="1" max="72" value="16" class="canvas-sizer slider">
       </div>
       <div class="canvas-clearer-wrapper">
         <button class="canvas-clearer">Clear canvas</button>
