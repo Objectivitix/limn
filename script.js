@@ -8,13 +8,32 @@ const canvasSizerLabel = document.querySelector(".canvas-sizer-container > label
 const canvasSizer = document.querySelector(".canvas-sizer");
 const canvasClearer = document.querySelector(".canvas-clearer");
 
-let mouseDown = false;
+let mouseDownButton = null;
 let penColor = "hsl(152, 100%, 60%)";
 
+function setMouseDownButton(evt) {
+  mouseDownButton = evt.button;
+}
+
 function onPixelHover(evt) {
-  if (mouseDown) {
+  if (mouseDownButton === 0) {
+    evt.target.style.backgroundColor = penColor;
+  } else if (mouseDownButton === 2) {
+    evt.target.style.backgroundColor = "";
+  }
+
+  evt.target.unhoverColor = evt.target.style.backgroundColor;
+  if (mouseDownButton !== 2) {
     evt.target.style.backgroundColor = penColor;
   }
+}
+
+function onPixelRelease(evt) {
+  evt.target.style.backgroundColor = penColor;
+}
+
+function onPixelUnhover(evt) {
+  evt.target.style.backgroundColor = evt.target.unhoverColor;
 }
 
 function onColorInput(evt) {
@@ -52,8 +71,11 @@ function createCanvasGrid(sideLength) {
       pixel.style.width = `${pixelSize}px`;
       pixel.style.height = `${pixelSize}px`;
       pixel.classList.add("pixel");
+
       pixel.addEventListener("mouseover", onPixelHover);
       pixel.addEventListener("mousedown", onPixelHover);
+      pixel.addEventListener("mouseup", onPixelRelease);
+      pixel.addEventListener("mouseleave", onPixelUnhover);
 
       row.appendChild(pixel);
     }
@@ -62,9 +84,11 @@ function createCanvasGrid(sideLength) {
   }
 }
 
-body.addEventListener("mousedown", () => mouseDown = true, {capture: true});
-body.addEventListener("mouseup", () => mouseDown = false);
-body.addEventListener("mouseleave", () => mouseDown = false);
+canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
+
+body.addEventListener("mousedown", setMouseDownButton, {capture: true});
+body.addEventListener("mouseup", () => mouseDownButton = null);
+body.addEventListener("mouseleave", () => mouseDownButton = null);
 
 colorPicker.addEventListener("input", onColorInput);
 gridLineToggle.addEventListener("click", onGridLineToggle);

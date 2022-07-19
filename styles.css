@@ -146,10 +146,6 @@ button:active {
   border-right: 0;
 }
 
-.pixel:hover {
-  background-color: hsla(0, 0%, 0%, 5%);
-}
-
 .canvas.hide-grid-lines .pixel {
   border-color: transparent;
 }
