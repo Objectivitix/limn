@@ -31,6 +31,27 @@ button:active {
   transition: background-color 50ms ease-out;
 }
 
+.slider-container {
+  background-color: hsl(162 100% 85%);
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 150ms ease-out;
+}
+
+.slider-container:hover {
+  background-color: hsl(162 100% 80%);
+}
+
+.slider-container > label {
+  color: hsl(0 0% 10%);
+  font-size: 16px;
+  font-weight: 300;
+}
+
 input[type="range"] {
   background: hsl(0 0% 15%);
   height: 2px;
@@ -60,8 +81,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 .settings {
   width: 200px;
-  height: 50vh;
-  gap: 36px;
+  gap: 56px;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings > div {
+  gap: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -84,7 +110,6 @@ input[type="range"]::-webkit-slider-thumb {
 .canvas-clearer-wrapper {
   background-color: hsl(0 0% 17%);
   border-radius: 5px;
-  margin-top: auto;
   display: flex;
   justify-content: center;
 }
@@ -103,18 +128,6 @@ input[type="range"]::-webkit-slider-thumb {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-}
-
-.slider-container {
-  text-align: center;
-  gap: 8px;
-  display: flex;
-  flex-direction: column;
-}
-
-.slider-container > label {
-  font-size: 16px;
-  font-weight: 300;
 }
 
 .canvas {

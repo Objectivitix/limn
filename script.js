@@ -5,6 +5,7 @@ const canvas = document.querySelector(".canvas");
 const pixels = document.getElementsByClassName("pixel");
 
 const colorPicker = document.querySelector(".color-picker");
+const rainbowToggle = document.querySelector(".rainbow-toggle");
 const gridToggle = document.querySelector(".grid-toggle");
 const gridColorToggle = document.querySelector(".grid-color-toggle");
 const gridOpacitySlider = document.querySelector(".grid-opacity-slider");
@@ -13,8 +14,9 @@ const canvasClearer = document.querySelector(".canvas-clearer");
 
 let buttonPressed = null;
 let penColor = "hsl(152 100% 60%)";
-let gridLineLightness = 0;
-let gridLineOpacity = 10;
+let rainbowMode = false;
+let gridLightness = 0;
+let gridOpacity = 10;
 
 canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
 
@@ -23,6 +25,7 @@ body.addEventListener("mouseup", () => buttonPressed = null);
 body.addEventListener("mouseleave", () => buttonPressed = null);
 
 colorPicker.addEventListener("input", onColorPick);
+rainbowToggle.addEventListener("click", onRainbowToggle);
 gridToggle.addEventListener("click", onGridToggle);
 gridColorToggle.addEventListener("click", onGridColorToggle);
 gridOpacitySlider.addEventListener("input", onGridOpacitySlide);
@@ -36,20 +39,24 @@ function onColorPick(evt) {
   penColor = evt.target.value;
 }
 
+function onRainbowToggle() {
+  rainbowMode = !rainbowMode;
+}
+
 function onGridToggle() {
   canvas.classList.toggle("hide-grid-lines");
 }
 
 function onGridColorToggle() {
-  gridLineLightness = Number(!gridLineLightness);
+  gridLightness = Number(!gridLightness);
   updateGrid();
 }
 
 function onGridOpacitySlide(evt) {
-  gridLineOpacity = evt.target.value;
+  gridOpacity = evt.target.value;
 
   evt.target.previousElementSibling.textContent =
-    `Grid line opacity: ${gridLineOpacity}%`;
+    `Grid line opacity: ${gridOpacity}%`;
   updateGrid();
 }
 
@@ -94,7 +101,8 @@ function createCanvasGrid(sideLength) {
 
 function onPixelHover(evt) {
   if (buttonPressed === 0) {
-    evt.target.style.backgroundColor = penColor;
+    evt.target.style.backgroundColor =
+      (rainbowMode) ? randColor() : penColor;
     evt.target.classList.add("write-mode");
   } else if (buttonPressed === 2) {
     evt.target.style.backgroundColor = "";
@@ -106,8 +114,16 @@ function onPixelRelease(evt) {
   evt.target.classList.remove("write-mode");
 }
 
+function randColor() {
+  return `hsl(${randInt(0, 361)} ${randInt(75, 101)}% ${randInt(30, 81)}%)`;
+}
+
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 function updateGrid() {
-  const newColor = `hsl(0 0% ${gridLineLightness * 100}% / ${gridLineOpacity}%)`
+  const newColor = `hsl(0 0% ${gridLightness * 100}% / ${gridOpacity}%)`
   forEach(pixels, pixel => pixel.style.borderColor = newColor);
 }
 

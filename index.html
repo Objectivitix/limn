@@ -15,21 +15,30 @@
     </div>
 
     <div class="settings">
-      <div class="color-picker-wrapper">
-        <input type="color" value="#33ffa0" class="color-picker">
+      <div>
+        <div class="color-picker-wrapper">
+          <input type="color" value="#33ffa0" class="color-picker">
+        </div>
+        <button class="rainbow-toggle">Toggle rainbow mode</button>
       </div>
-      <button class="grid-toggle">Toggle grid lines</button>
-      <button class="grid-color-toggle">Toggle grid line color</button>
-      <div class="slider-container">
-        <label>Grid line opacity: 10%</label>
-        <input type="range" min="0" max="100" value="10" class="grid-opacity-slider">
+
+      <div>
+        <button class="grid-toggle">Toggle grid lines</button>
+        <button class="grid-color-toggle">Toggle grid line color</button>
+        <div class="slider-container">
+          <label>Grid line opacity: 10%</label>
+          <input type="range" min="0" max="100" value="10" class="grid-opacity-slider">
+        </div>
       </div>
-      <div class="slider-container">
-        <label>Canvas size: 16x16</label>
-        <input type="range" min="1" max="72" value="16" class="canvas-size-slider">
-      </div>
-      <div class="canvas-clearer-wrapper">
-        <button class="canvas-clearer">Clear canvas</button>
+
+      <div>
+        <div class="slider-container">
+          <label>Canvas size: 16x16</label>
+          <input type="range" min="1" max="72" value="16" class="canvas-size-slider">
+        </div>
+        <div class="canvas-clearer-wrapper">
+          <button class="canvas-clearer">Clear canvas</button>
+        </div>
       </div>
     </div>
 
