@@ -134,27 +134,28 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-.canvas-clearer-wrapper {
+.canvas-clearer {
   background-color: hsl(0 0% 17%);
   border-radius: 5px;
   display: flex;
   justify-content: center;
 }
 
-.canvas-clearer-wrapper:hover {
+.canvas-clearer:hover {
   background-color: hsl(0 0% 21%);
 }
 
-.canvas-clearer-wrapper:active {
+.canvas-clearer:active {
   background-color: hsl(0 0% 26%);
 }
 
-.canvas-clearer {
-  font-weight: bold;
+.canvas-clearer-text {
   background-image: linear-gradient(90deg, hsl(152 100% 45%), hsl(172 100% 45%));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  font-weight: bold;
+  margin: 0;
 }
 
 .canvas {
