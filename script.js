@@ -12,7 +12,7 @@ const gridOpacitySlider = document.querySelector(".grid-opacity-slider");
 const canvasSizeSlider = document.querySelector(".canvas-size-slider");
 const canvasClearer = document.querySelector(".canvas-clearer");
 
-let buttonPressed = null;
+let mouseButtonDown = null;
 let penColor = "hsl(152 100% 60%)";
 let rainbowMode = false;
 let gridLightness = 0;
@@ -20,9 +20,9 @@ let gridOpacity = 10;
 
 canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
 
-body.addEventListener("mousedown", (evt) => buttonPressed = evt.button, {capture: true});
-body.addEventListener("mouseup", () => buttonPressed = null);
-body.addEventListener("mouseleave", () => buttonPressed = null);
+body.addEventListener("mousedown", (evt) => mouseButtonDown = evt.button, {capture: true});
+body.addEventListener("mouseup", () => mouseButtonDown = null);
+body.addEventListener("mouseleave", () => mouseButtonDown = null);
 
 colorPicker.addEventListener("input", onColorPick);
 rainbowToggle.addEventListener("click", onRainbowToggle);
@@ -39,15 +39,18 @@ function onColorPick(evt) {
   penColor = evt.target.value;
 }
 
-function onRainbowToggle() {
+function onRainbowToggle(evt) {
+  buttonToggle(evt.target);
   rainbowMode = !rainbowMode;
 }
 
-function onGridToggle() {
+function onGridToggle(evt) {
+  buttonToggle(evt.target);
   canvas.classList.toggle("hide-grid-lines");
 }
 
-function onGridColorToggle() {
+function onGridColorToggle(evt) {
+  buttonToggle(evt.target);
   gridLightness = Number(!gridLightness);
   updateGrid();
 }
@@ -100,11 +103,11 @@ function createCanvasGrid(sideLength) {
 }
 
 function onPixelHover(evt) {
-  if (buttonPressed === 0) {
+  if (mouseButtonDown === 0) {
     evt.target.style.backgroundColor =
       (rainbowMode) ? randColor() : penColor;
     evt.target.classList.add("write-mode");
-  } else if (buttonPressed === 2) {
+  } else if (mouseButtonDown === 2) {
     evt.target.style.backgroundColor = "";
     evt.target.classList.add("write-mode");
   }
@@ -120,6 +123,10 @@ function randColor() {
 
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function buttonToggle(button) {
+  button.classList.toggle("on");
 }
 
 function updateGrid() {

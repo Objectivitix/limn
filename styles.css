@@ -26,9 +26,8 @@ button:hover {
   background-color: hsl(152 100% 80%);
 }
 
-button:active {
-  background-color: hsl(152 100% 75%);
-  transition: background-color 50ms ease-out;
+button.on {
+  background-color: hsl(152 100% 65%);
 }
 
 .slider-container {
@@ -71,7 +70,7 @@ input[type="range"]::-webkit-slider-thumb {
 .titles {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .title,
